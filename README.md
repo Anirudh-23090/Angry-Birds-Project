@@ -14,7 +14,7 @@ Gradle -> <Project_Name> -> Tasks -> application -> run
 The visual elements and components are quite self-explanatory.
 The different types of buttons used to navigate are:
 Play, GoToMainMenu, SaveAndExit, Load, Retry, Pause, Music, Back, Different Levels, NextLevel, etc.
-Test the project by working with the buttons, the gameplay, and the implementation.
+Test the project by working with the buttons, the gameplay, and the implementation. We have kept the debugrenderer on so that it is easier to understand what the bodies are doing, we are also printing the velocities to the console. 
 
 ## About the Project:
 The project is a try at replicating the famous Angry Birds game to learn about LibGDX, Object Oriented Programming, Serialisation, and JUnit testing. 
