@@ -3,11 +3,9 @@ package java.com.badlogic;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PigTest {
-
     @org.junit.jupiter.api.Test
-    void damage() {
-        int expectedDamage = 10;
-        int actualDamage = 10; // Replace this with the actual method call
-        assertEquals(expectedDamage, actualDamage, "Damage should be 10");
+    void add() {
+        int a = 0, b = 10;
+        assertEquals(10, a + b);
     }
 }
