@@ -4,39 +4,38 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.math.Vector2;
 
-import java.io.FileWriter;
+import java.io.FileReader;
 
-public class PauseScreen implements Screen {
+public class MapScreen implements Screen {
     private final Main game;
-    private final int level;
-    private final Screen previousScreen;
-    private final Texture level1Texture, level2Texture, level3Texture, backgroundTexture, resumeTexture, mainMenuTexture, saveAndExitTexture;
-    private final Button resume, mainMenu, saveAndExit;
+    private final Texture backgroundTexture, level1Texture, level2Texture, level3Texture, backTexture, loadTexture;
+    private final Button level1Button, level2Button, level3Button, backButton, level1LoadButton, level2LoadButton, level3LoadButton;
     private final Vector2 touchPos;
 
-    public PauseScreen(final Main game, int level, Screen screen) {
+    public MapScreen(final Main game) {
         this.game = game;
-        this.level = level;
-        this.previousScreen = screen;
         touchPos = new Vector2();
-        level1Texture = new Texture(Gdx.files.internal("level1Background.png"));
-        level2Texture = new Texture(Gdx.files.internal("level2Background.png"));
-        level3Texture = new Texture(Gdx.files.internal("level3Background.png"));
-        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
-        resumeTexture = new Texture(Gdx.files.internal("pause.png"));
-        saveAndExitTexture = new Texture(Gdx.files.internal("saveAndExit.png"));
-        mainMenuTexture = new Texture(Gdx.files.internal("mainMenu.png"));
+        backgroundTexture = new Texture("background2.png");
+        level1Texture = new Texture("level1Button.png");
+        level2Texture = new Texture("level2Button.png");
+        level3Texture = new Texture("level3Button.png");
+        backTexture = new Texture("backButton.png");
+        loadTexture = new Texture("load.png");
 
-        resume = new Button(resumeTexture, 760, 500, 80, 80);
-        mainMenu = new Button(mainMenuTexture, 760, 300, 80, 80);
-        saveAndExit = new Button(saveAndExitTexture, 760, 400, 80, 80);
+        level1Button = new Button(level1Texture, 259, 286, 43, 50);
+        level2Button = new Button(level2Texture, 355, 286, 42, 50);
+        level3Button = new Button(level3Texture, 451, 286, 42, 50);
+        level1LoadButton = new Button(loadTexture, 259, 208, 42, 50);
+        level2LoadButton = new Button(loadTexture, 355, 208, 42, 50);
+        level3LoadButton = new Button(loadTexture, 451, 208, 42, 50);
+        backButton = new Button(backTexture, 7, 7, 63, 63);
 
-        game.viewport.setWorldSize(1600, 900);
+        game.viewport.setWorldSize(750, 573);
     }
 
     @Override
@@ -44,7 +43,7 @@ public class PauseScreen implements Screen {
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float v) {
         input();
         logic();
         draw();
@@ -60,21 +59,65 @@ public class PauseScreen implements Screen {
             game.addTimer(delta);
 
             if (game.getTimer() > 0.1f) {
-                if (resume.contains(touchPos.x, touchPos.y)) {
+                if (level1Button.contains(touchPos.x, touchPos.y)) {
                     game.setTimer(0);
-                    game.setScreen(previousScreen);
-                } else if (mainMenu.contains(touchPos.x, touchPos.y)) {
+                    game.setScreen(new Level1Screen(game));
+                    dispose();
+                } else if (level2Button.contains(touchPos.x, touchPos.y)) {
+                    game.setTimer(0);
+                    game.setScreen(new Level2Screen(game));
+                    dispose();
+                } else if (level3Button.contains(touchPos.x, touchPos.y)) {
+                    game.setTimer(0);
+                    game.setScreen(new Level3Screen(game));
+                    dispose();
+                } else if (backButton.contains(touchPos.x, touchPos.y)) {
                     game.setTimer(0);
                     game.setScreen(new MainMenuScreen(game));
                     dispose();
-                } else if (saveAndExit.contains(touchPos.x, touchPos.y)) {
+                } else if (level1LoadButton.contains(touchPos.x, touchPos.y)) {
                     game.setTimer(0);
-                    save(previousScreen);
-                    game.setScreen(new MapScreen(game));
+                    load(1);
+                    dispose();
+                } else if (level2LoadButton.contains(touchPos.x, touchPos.y)) {
+                    game.setTimer(0);
+                     load(2);
+                    dispose();
+                } else if (level3LoadButton.contains(touchPos.x, touchPos.y)) {
+                    game.setTimer(0);
+                    load(3);
                     dispose();
                 }
             }
         }
+    }
+
+    private void load(int level) {
+        if (level == 1) {
+            Serialisation serialize = get(Constants.filepath1);
+            game.setScreen(new Level1Screen(game, serialize));
+            dispose();
+        } else if (level == 2) {
+            Serialisation serialize = get(Constants.filepath2);
+            game.setScreen(new Level2Screen(game, serialize));
+            dispose();
+        } else if (level == 3) {
+            Serialisation serialize = get(Constants.filepath3);
+            game.setScreen(new Level3Screen(game, serialize));
+            dispose();
+        }
+    }
+
+    private Serialisation get(String filepath) {
+        Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        try (FileReader reader = new FileReader(filepath)) {
+            Serialisation state = json.fromJson(Serialisation.class, reader);
+            return state;
+        } catch (Exception e) {
+            System.out.println("Error loading file");
+        }
+        return null;
     }
 
     private void logic() {
@@ -95,16 +138,8 @@ public class PauseScreen implements Screen {
         float worldWidth = game.viewport.getWorldWidth();
         float worldHeight = game.viewport.getWorldHeight();
 
-        if (level == 1) {
-            game.batch.draw(level1Texture, 0, 0, worldWidth, worldHeight);
-        } else if (level == 2) {
-            game.batch.draw(level2Texture, 0, 0, worldWidth, worldHeight);
-        } else if (level == 3) {
-            game.batch.draw(level3Texture, 0, 0, worldWidth, worldHeight);
-        }
-
-        game.batch.draw(backgroundTexture, 424.5f, 174, 751, 552);
-        resume.draw(game); saveAndExit.draw(game); mainMenu.draw(game);
+        game.batch.draw(backgroundTexture, 0, 0, worldWidth, worldHeight);
+        level1Button.draw(game); level2Button.draw(game); level3Button.draw(game); backButton.draw(game); level1LoadButton.draw(game); level2LoadButton.draw(game); level3LoadButton.draw(game);
 
         game.batch.end();
     }
@@ -114,29 +149,23 @@ public class PauseScreen implements Screen {
         game.viewport.update(width, height, true);
     }
 
-    private void save(Screen screen) {
-        if (screen instanceof Level1Screen level1Screen) {
-            level1Screen.save();
-        } else if (screen instanceof Level2Screen level2Screen) {
-            level2Screen.save();
-        } else if (screen instanceof Level3Screen level3Screen) {
-            level3Screen.save();
-        }
-    }
-
     @Override
     public void pause() {
+        game.setPause(true);
     }
 
     @Override
     public void resume() {
+        game.setPause(false);
     }
 
     @Override
     public void hide() {
+
     }
 
     @Override
     public void dispose() {
+
     }
 }
