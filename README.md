@@ -1,4 +1,33 @@
-# NewAngryBirds
+# AngryBirdsProject
+
+## Setting up the Project:
+Build a gradle project with LibGDX.
+Replace the src files and assets of the Project with the our src and asset files.
+Add the gradle dependencies from the repository in your gradle project.
+
+## Run the Project:
+Open the project in IntelliJ.
+Click on the run button or the run button with the following path:
+Gradle -> <Project_Name> -> Tasks -> application -> run
+
+## Testing the Project:
+The visual elements and components are quite self-explanatory.
+The different types of buttons used to navigate are:
+Play, GoToMainMenu, SaveAndExit, Load, Retry, Pause, Music, Back, Different Levels, NextLevel, etc.
+Test the project by working with the buttons, the gameplay, and the implementation.
+
+## About the Project:
+The project is a try at replicating the famous Angry Birds game to learn about LibGDX, Object Oriented Programming, Serialisation, and JUnit testing. 
+
+## Contributors
+Anirudh Bharatiya - 2023090 and Arjun Chetan Pandya - 2023120.
+Team Name - TLE-Haters
+
+## Credits:
+To remove background from images: https://www.remove.bg/.
+To crop the image with rounded corners: Google Search.
+Images of different elements and components from Original Game, YT and Google Search (No particular website).
+Music from Google Search.
 
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
 
@@ -8,6 +37,7 @@ This project was generated with a template including simple application launcher
 
 - `core`: Main module with the application logic shared by all platforms.
 - `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
+
 
 ## Gradle
 
