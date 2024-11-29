@@ -59,6 +59,7 @@ public class PauseScreen implements Screen {
             float delta = Gdx.graphics.getDeltaTime();
             game.addTimer(delta);
 
+            System.out.println(game.getTimer());
             if (game.getTimer() > 0.1f) {
                 if (resume.contains(touchPos.x, touchPos.y)) {
                     game.setTimer(0);
