@@ -392,6 +392,8 @@ public class Level2Screen implements Screen {
                         body.getPosition().y - sprite.getHeight() / 2
                     );
                     sprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
+                    System.out.println(body.getLinearVelocity().len());
+                    System.out.println(bird.getSprite().getX());
                     if ((bird.isReleased() && body.getLinearVelocity().len() <= 10) || bird.getSprite().getX() < -300 || bird.getSprite().getX() > 1900) {
                         bird.setDestroy(true);
                         world.destroyBody(body);
