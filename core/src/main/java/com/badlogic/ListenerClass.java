@@ -237,6 +237,7 @@ public class ListenerClass implements ContactListener {
 
     private void handlePigGroundEndCollision(Contact contact) {
         Pig pig = extractPig(contact);
+        System.out.println(pig.getHealth());
         if (pig.getHealth() <= 0) {
             score += 100;
             Add(pig.getBody());
