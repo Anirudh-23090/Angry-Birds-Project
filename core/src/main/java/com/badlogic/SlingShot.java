@@ -71,6 +71,7 @@ public class SlingShot {
         float stretchFactor = 1800f;
         float launchSpeed = (stretch / Constants.MAX_STRETCH) * stretchFactor;
 
+        System.out.println(velocity.scl(launchSpeed));
         return velocity.scl(launchSpeed);
     }
 
