@@ -58,6 +58,7 @@ public class MapScreen implements Screen {
             float delta = Gdx.graphics.getDeltaTime();
             game.addTimer(delta);
 
+            System.out.println(game.getTimer());
             if (game.getTimer() > 0.1f) {
                 if (level1Button.contains(touchPos.x, touchPos.y)) {
                     game.setTimer(0);
