@@ -19,6 +19,9 @@ Test the project by working with the buttons, the gameplay, and the implementati
 ## About the Project:
 The project is a try at replicating the famous Angry Birds game to learn about LibGDX, Object Oriented Programming, Serialisation, and JUnit testing. 
 
+## Demo Video:
+[https://github.com/Anirudh-23090/Angry-Birds-Project/blob/main/Demo.mp4](https://github.com/user-attachments/assets/6b053c70-dad2-4e2d-a899-9f56151ce46f)
+
 ## Contributors
 Anirudh Bharatiya - 2023090 and Arjun Chetan Pandya - 2023120.
 Team Name - TLE-Haters
